@@ -1,0 +1,62 @@
+@(apiKey: String)
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Google Maps JavaScript API v3 Example: Info Window Simple</title>
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/default.css")">
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@apiKey&sensor=true"></script>
+
+    <script>
+        @defining(play.Play.isProd) { minify =>
+            (function () {
+                var thirdPartyRoot = '/assets/thirdparty/';
+
+                window.require = {
+                    shim: {
+                        'underscore': {
+                            exports: '_'
+                        },
+
+                        'backbone': {
+                            deps: ['underscore','jquery'],
+                            exports: 'Backbone'
+                        },
+
+                        'backstretch': {
+                            deps: ['jquery']
+                        },
+
+                        'bootstrap' : {
+                            deps: ['jquery']
+                        }
+                    },
+
+                    baseUrl: '/assets/javascripts',
+
+                    paths: {
+                        ace :        thirdPartyRoot + "ace/src-min-noconflict/ace",
+                        jquery:      '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery@if(minify){.min}',        //  thirdPartyRoot + 'jquery-1.8.3@if(minify){.min}',
+                        backstretch: thirdPartyRoot + 'jquery.backstretch.min',
+                        underscore:  thirdPartyRoot + 'underscore@if(minify){-min}',
+                        backbone:    thirdPartyRoot + 'backbone@if(minify){-min}',
+                        bootstrap:   thirdPartyRoot + 'bootstrap/js/bootstrap@if(minify){.min}',
+                        rotateTable: thirdPartyRoot + 'jquery.rotateTableCellContent/jquery.rotateTableCellContent',
+                        common:      '/assets/javascripts/common'
+                    }
+                }
+            })();
+        }
+    </script>
+
+
+
+    @views.ViewHelper.requireMain("events", "events.main")
+</head>
+<body>
+    <div id="map_canvas"></div>
+</body>
+</html>
