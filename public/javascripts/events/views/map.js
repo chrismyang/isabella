@@ -3,15 +3,20 @@ define(['jquery'],
     var Map = {
       _element : null,
 
-      setElement : function (element) {
-        this._element = element;
-      },
-
       _getElement : function () {
         return $(this._element)[0];
       },
 
-      gmap : null,
+
+      _gmap : null,
+
+      getMap : function () {
+        return this._gmap;
+      },
+
+      setElement : function (element) {
+        this._element = element;
+      },
 
       load : function () {
         var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
@@ -57,7 +62,7 @@ define(['jquery'],
           infowindow.open(map,marker);
         });
 
-        gmap = map;
+        this._gmap = map;
       }
     };
 
