@@ -21,9 +21,9 @@ define(['jquery', 'backbone', 'collections/events'],
       },
 
       _load : function () {
-        var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+        var myLatlng = new google.maps.LatLng(37.7697361, -122.46613809999997);
         var mapOptions = {
-          zoom: 4,
+          zoom: 13,
           center: myLatlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
