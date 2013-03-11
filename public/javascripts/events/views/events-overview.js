@@ -11,10 +11,13 @@ define(
 
       render : function () {
         this.$el.html('');
-        this.model.each(_.bind(function (event) {
+
+        var fnRenderEvent = _.bind(function (event) {
           var card = new EventCard({ model : event });
           this.$el.append(card.render().$el);
-        }, this));
+        }, this);
+
+        this.model.each(fnRenderEvent);
 
         return this;
       }
