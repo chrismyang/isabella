@@ -6,7 +6,7 @@ define(
         "id" : null,
         "title" : "",
         "location" : {
-          "title" : "",
+          "text" : "",
           "latitude" : 0.0,
           "longitude" : 0.0
         }
@@ -16,7 +16,12 @@ define(
         var latitude = this.get('location').latitude;
         var longitude = this.get('location').longitude;
         return new google.maps.LatLng(latitude, longitude);
+      },
+
+      getAddress : function () {
+        return this.get('location').text;
       }
+
     });
   }
 );
