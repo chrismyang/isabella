@@ -9,7 +9,9 @@ define(
           "text" : "",
           "latitude" : 0.0,
           "longitude" : 0.0
-        }
+        },
+
+        selected : false
       },
 
       getPosition : function () {
@@ -20,7 +22,20 @@ define(
 
       getAddress : function () {
         return this.get('location').text;
+      },
+
+      select : function () {
+        this.set('selected', true);
+      },
+
+      unselect : function () {
+        this.set('selected', false);
+      },
+
+      isSelected : function () {
+        return this.get('selected');
       }
+
 
     });
   }

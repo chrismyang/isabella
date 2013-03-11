@@ -1,8 +1,14 @@
 require([
   'backbone',
-  'views/app'],
+  'views/app',
+  'jquery',
+  'router'],
 
-  function (Backbone, App) {
-    new App();
+  function (Backbone, App, $, Router) {
+    $(function () {
+      new App();
+      new Router();
+      Backbone.history.start({pushState: true, root: "/helloWorld"})
+    })
   }
 );
