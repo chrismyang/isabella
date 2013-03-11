@@ -1,10 +1,11 @@
 require(
-  ['jquery', 'views/map'],
+  ['jquery', 'views/map', 'collections/events'],
 
-  function ($, Map) {
+  function ($, Map, Events) {
     $(function () {
-      Map.setElement('#map_canvas');
-      Map.load();
+      var map = new Map({ el : '#map_canvas' });
+      map.load();
+      Events.fetch();
     });
   }
 );

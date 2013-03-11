@@ -5,7 +5,17 @@ define(
       defaults : {
         "id" : null,
         "title" : "",
-        "location" : ""
+        "location" : {
+          "title" : "",
+          "latitude" : 0.0,
+          "longitude" : 0.0
+        }
+      },
+
+      getPosition : function () {
+        var latitude = this.get('location').latitude;
+        var longitude = this.get('location').longitude;
+        return new google.maps.LatLng(latitude, longitude);
       }
     });
   }

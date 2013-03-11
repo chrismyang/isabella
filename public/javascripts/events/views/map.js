@@ -1,12 +1,10 @@
-define(['jquery'],
-  function ($) {
-    var Map = {
-      _element : null,
+define(['jquery', 'backbone', 'collections/events'],
+  function ($, Backbone, Events) {
+    var Map = Backbone.View.extend({
 
-      _getElement : function () {
-        return $(this._element)[0];
+      initialize : function () {
+        Events.on('reset', this.resetMarkers, this);
       },
-
 
       _gmap : null,
 
@@ -14,8 +12,11 @@ define(['jquery'],
         return this._gmap;
       },
 
-      setElement : function (element) {
-        this._element = element;
+      resetMarkers : function () {
+        var _this = this;
+        Events.each(function (event) {
+          _this.addMarker(event.getPosition());
+        });
       },
 
       load : function () {
@@ -26,8 +27,11 @@ define(['jquery'],
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-        var map = new google.maps.Map(this._getElement(), mapOptions);
+        this._gmap = new google.maps.Map(this.$el[0], mapOptions);
+      },
 
+      addMarker : function (position) {
+        var map = this.getMap();
         var contentString = '<div id="content">'+
           '<div id="siteNotice">'+
           '</div>'+
@@ -54,17 +58,15 @@ define(['jquery'],
         });
 
         var marker = new google.maps.Marker({
-          position: myLatlng,
+          position: position,
           map: map,
           title: 'Uluru (Ayers Rock)'
         });
         google.maps.event.addListener(marker, 'click', function() {
           infowindow.open(map,marker);
         });
-
-        this._gmap = map;
       }
-    };
+    });
 
     return Map;
   }
