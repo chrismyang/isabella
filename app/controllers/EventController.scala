@@ -6,7 +6,7 @@ import play.api.libs.json.{Writes, Json}
 
 object EventController extends Controller {
   def all = Action {
-    val location = Location("55 Music Concourse Dr, San Francisco, CA 94118", -25.363882, 131.044922)
+    val location = Location("55 Music Concourse Dr, San Francisco, CA 94118", 37.7697361, -122.46613809999997)
     val events = Seq(Event(None, "NightLife at the Academy of Science", location))
     Ok(Json.toJson(events)(Writes.seqWrites(Event.Format)))
   }
