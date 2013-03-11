@@ -4,6 +4,5 @@ require([
 
   function (Backbone, App) {
     new App();
-    Backbone.history.start();
   }
 );
