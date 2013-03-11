@@ -1,11 +1,9 @@
-require(
-  ['jquery', 'views/map', 'collections/events'],
+require([
+  'backbone',
+  'views/app'],
 
-  function ($, Map, Events) {
-    $(function () {
-      var map = new Map({ el : '#map_canvas' });
-      map.load();
-      Events.fetch();
-    });
+  function (Backbone, App) {
+    new App();
+    Backbone.history.start();
   }
 );
