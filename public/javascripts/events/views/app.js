@@ -4,7 +4,6 @@ define(
     return Backbone.View.extend({
       initialize : function () {
         var map = new Map({ el : '#map_canvas' });
-        map.load();
         Events.fetch();
       }
     })

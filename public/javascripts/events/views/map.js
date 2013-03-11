@@ -4,6 +4,7 @@ define(['jquery', 'backbone', 'collections/events'],
 
       initialize : function () {
         Events.on('reset', this.resetMarkers, this);
+        this._load();
       },
 
       _gmap : null,
@@ -19,7 +20,7 @@ define(['jquery', 'backbone', 'collections/events'],
         });
       },
 
-      load : function () {
+      _load : function () {
         var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
         var mapOptions = {
           zoom: 4,
