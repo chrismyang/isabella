@@ -31,8 +31,21 @@ define(
 
       _findById : function (eventId) {
         return this.find(function (event) { return event.get('id') == eventId; });
-      }
+      },
 
+      createNewEvent : function (onSuccess) {
+        var createOptions = {
+          wait : true,
+          success : onSuccess
+        };
+
+        this.create({
+          "title" : "New Event Title",
+          "location" : {
+            "text" : "1655 Mission St, San Francisco, CA"
+          }
+        }, createOptions);
+      }
     });
 
     return new EventList();

@@ -4,6 +4,7 @@ define(['jquery', 'backbone', 'collections/events'],
 
       initialize : function () {
         Events.on('reset', this.resetMarkers, this);
+        Events.on('add', this.addEvent, this);
         Events.getCurrentEvent().on('change:value', this._showSelectedEvent, this);
         this._load();
       },
@@ -15,10 +16,11 @@ define(['jquery', 'backbone', 'collections/events'],
       },
 
       resetMarkers : function () {
-        var _this = this;
-        Events.each(function (event) {
-          _this.addMarker(event.getPosition(), event.get('title'), event.get('id'));
-        });
+        Events.each(_.bind(this.addEvent, this));
+      },
+
+      addEvent : function (event) {
+        this.addMarker(event.getPosition(), event.get('title'), event.get('id'));
       },
 
       _load : function () {

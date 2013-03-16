@@ -14,4 +14,19 @@ object EventController extends Controller {
     val events = Seq(event, event2)
     Ok(Json.toJson(events)(Writes.seqWrites(Event.Format)))
   }
+
+  def create = Action { implicit request =>
+    val response = for {
+      json <- request.body.asJson
+    } yield {
+
+      val event = Event(Some("000002"), (json \ "title").as[String], Location((json \ "location" \ "text").as[String], 0.0, 0.0))
+      Ok(Json.toJson(event))
+    }
+    response.getOrElse(BadRequest("No json body"))
+  }
+
+  def update = Action {
+    Ok("Updated")
+  }
 }

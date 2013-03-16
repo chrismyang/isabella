@@ -1,8 +1,12 @@
 define(
-  ['backbone', 'views/event-card'],
-  function (Backbone, EventCard) {
+  ['backbone', 'views/event-card', 'collections/events'],
+  function (Backbone, EventCard, Events) {
     return Backbone.View.extend({
       tagName : 'ul',
+
+      events : {
+        'click button' : 'addNewEvent'
+      },
 
       initialize : function () {
         this.model.on('all', this.render, this);
@@ -19,7 +23,15 @@ define(
 
         this.model.each(fnRenderEvent);
 
+        this.$el.append('<button>New Event</button>');
+
         return this;
+      },
+
+      addNewEvent : function () {
+        Events.createNewEvent(function (newEvent) {
+          Backbone.history.navigate('edit/' + newEvent.get('id'), { trigger : true });
+        });
       }
     })
   }
