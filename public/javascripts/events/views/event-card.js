@@ -31,7 +31,7 @@ define(
       },
 
       edit : function () {
-        Backbone.history.navigate('event/' + this.model.get('id'), { trigger : true });
+        Backbone.history.navigate('edit/' + this.model.get('id'), { trigger : true });
       }
     })
   }

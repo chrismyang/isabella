@@ -10,7 +10,7 @@ define([
     return Backbone.Router.extend({
       routes : {
         "select/:eventId" : 'selectEvent',
-        "event/:eventId" : 'editEvent'
+        "edit/:eventId" : 'editEvent'
       },
 
       selectEvent : function (eventId) {
