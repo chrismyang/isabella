@@ -26,6 +26,7 @@ define(['backbone'],
       var oldValue = this.value;
       this.value = newValue;
       this.trigger('change:value', oldValue, newValue);
+      this.trigger('change:isEmpty', { isEmpty : false });
     };
 
     _.extend(ActiveHolder.prototype, Backbone.Events);
