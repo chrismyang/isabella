@@ -1,18 +1,25 @@
 define([
   'backbone',
-  'collections/events'
+  'collections/events',
+  'views/event-detail'
   ],
 
-  function (Backbone, Events) {
+  function (Backbone, Events, EventDetailView) {
     'use strict';
 
     return Backbone.Router.extend({
       routes : {
-        "event/:eventId" : 'selectEvent'
+        "select/:eventId" : 'selectEvent',
+        "event/:eventId" : 'editEvent'
       },
 
       selectEvent : function (eventId) {
         Events.selectEvent(eventId);
+      },
+
+      editEvent : function (eventId) {
+        this.selectEvent(eventId);
+        EventDetailView.enableEditMode();
       }
     });
   });

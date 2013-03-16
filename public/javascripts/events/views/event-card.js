@@ -5,7 +5,8 @@ define(
       tagName : 'li',
 
       events : {
-        'click' : 'onClick'
+        'click' : 'select',
+        'dblclick' : 'edit'
       },
 
       initialize : function () {
@@ -25,8 +26,12 @@ define(
         return this;
       },
 
-      onClick : function () {
-        Backbone.history.navigate('/event/' + this.model.get('id'), { trigger : true });
+      select : function () {
+        Backbone.history.navigate('select/' + this.model.get('id'), { trigger : true });
+      },
+
+      edit : function () {
+        Backbone.history.navigate('event/' + this.model.get('id'), { trigger : true });
       }
     })
   }
