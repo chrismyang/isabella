@@ -4,6 +4,7 @@ define(['jquery', 'backbone', 'collections/events'],
 
       initialize : function () {
         Events.on('reset', this.resetMarkers, this);
+        Events.getCurrentEvent().on('change:value', this._showSelectedEvent, this);
         this._load();
       },
 
@@ -16,7 +17,7 @@ define(['jquery', 'backbone', 'collections/events'],
       resetMarkers : function () {
         var _this = this;
         Events.each(function (event) {
-          _this.addMarker(event.getPosition(), event.get('title'));
+          _this.addMarker(event.getPosition(), event.get('title'), event.get('id'));
         });
       },
 
@@ -31,36 +32,62 @@ define(['jquery', 'backbone', 'collections/events'],
         this._gmap = new google.maps.Map(this.$el[0], mapOptions);
       },
 
-      addMarker : function (position, title) {
+      addMarker : function (position, title, id) {
         var map = this.getMap();
-        var contentString = '<div id="content">'+
-          '<h4>' + title + '</h4>' +
-          '</div>';
+        var contentString = '<div id="content"><h4>' + title + '</h4></div>';
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString
         });
-        this._addInfoWindow(infowindow);
+        this._addInfoWindow(id, infowindow);
 
         var marker = new google.maps.Marker({
           position: position,
           map: map,
           title: 'Uluru (Ayers Rock)'
         });
-        google.maps.event.addListener(marker, 'click', function() {
-          _.each(this._infoWindows, function (iw) {
-            iw.close();
-          });
-          infowindow.open(map,marker);
-        });
+
+        this._addMarker(id, marker);
+
+        google.maps.event.addListener(marker, 'click', _.bind(this._showEventInMap), this);
       },
 
-      _addInfoWindow : function (infoWindow) {
-        this._infoWindows.push(infoWindow);
+      _showEventInMap : function (eventId) {
+        for (var id in this._infoWindows) {
+          this._getInfoWindow(id).close();
+        }
+
+        var _marker = this._getMarker(eventId);
+        this._getInfoWindow(eventId).open(this.getMap(),_marker);
       },
 
-      _infoWindows : []
+      _addMarker : function (eventId, marker) {
+        this._marker[eventId] = marker;
+      },
 
+      _addInfoWindow : function (eventId, infoWindow) {
+        this._infoWindows[eventId] = infoWindow;
+      },
+
+      _infoWindows : {},
+
+      _getInfoWindow : function (eventId) {
+        return this._infoWindows[eventId];
+      },
+
+      _showSelectedEvent : function (oldEvent, selectedEvent) {
+        if (!Events.getCurrentEvent().isEmpty) {
+          this._showEventInMap(selectedEvent.get('id'));
+        } else {
+
+        }
+      },
+
+      _marker : {},
+
+      _getMarker : function (eventId) {
+        return this._marker[eventId];
+      }
     });
 
     return Map;
