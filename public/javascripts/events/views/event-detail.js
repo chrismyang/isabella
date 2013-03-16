@@ -1,7 +1,7 @@
 define(
-  ['backbone'],
-  function (Backbone) {
-    return Backbone.View.extend({
+  ['backbone', 'collections/events'],
+  function (Backbone, Events) {
+    var EventDetail = Backbone.View.extend({
       initialize : function () {
         this.model.on('all', this.render, this);
         this.render();
@@ -19,6 +19,8 @@ define(
 
         return this;
       }
-    })
+    });
+
+    return new EventDetail({ el :  '#event-detail', model : Events.getCurrentEvent() });
   }
 );
