@@ -15,11 +15,12 @@ define([
 
       selectEvent : function (eventId) {
         Events.selectEvent(eventId);
+        EventDetailView.setEditMode(false);
       },
 
       editEvent : function (eventId) {
         this.selectEvent(eventId);
-        EventDetailView.enableEditMode();
+        EventDetailView.setEditMode(true);
       }
     });
   });
