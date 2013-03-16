@@ -11,7 +11,10 @@ define(
         if (this.model.isEmpty) {
           this.$el.html('Click on the map or on a card to show details.');
         } else {
-          this.$el.html(this.model.value.get('title'));
+          var html = '<h3>' + this.model.value.get('title') + '</h3>' +
+            '<p>' + this.model.value.get('location').text + '</p>';
+
+          this.$el.html(html);
         }
 
         return this;
