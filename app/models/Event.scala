@@ -3,12 +3,18 @@ package models
 import play.api.libs.json._
 import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
+import org.bson.types.ObjectId
+import util.JsonFormats._
 
 case class Event(
-    _id: Option[String],
+    _id: Option[ObjectId],
     title: String,
     location: Location) {
 
+  def withNewLatLong(newLatLong: LatLong) = {
+    val newLocation = this.location.copy(latLong = newLatLong)
+    this.copy(location = newLocation)
+  }
 }
 
 case class Location(text: String, latLong: LatLong)
@@ -34,13 +40,13 @@ object Location {
 object Event {
   implicit object Format extends Format[Event] {
     def writes(o: Event) = JsObject(Seq(
-      "id" -> o._id.map(JsString(_)).getOrElse(JsNull),
+      "id" -> Json.toJson(o._id),
       "title" -> JsString(o.title),
       "location" -> Json.toJson(o.location)))
 
     def reads(json: JsValue) = {
       Event(
-        _id = (json \ "id").asOpt[String],
+        _id = (json \ "id").as[Option[ObjectId]],
         title = (json \ "title").as[String],
         location = (json \ "location").as[Location]
       )

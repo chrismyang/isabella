@@ -56,8 +56,12 @@ define(
 
       save : function () {
         if (this.model.get('editMode')) {
+          var location = this.model.getEvent().get('location');
+          location.text = this.$('#inputLocation').val();
+
           var newData = {
-            "title" : this.$('#inputTitle').val()
+            "title" : this.$('#inputTitle').val(),
+            "location" : location
           };
 
           var id = this.model.getEvent().get('id');
