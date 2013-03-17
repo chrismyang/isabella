@@ -11,14 +11,14 @@ case class Event(
 
 }
 
-case class Location(text: String, latitude: Double, longitude: Double)
+case class Location(text: String, latLong: LatLong)
 
 object Location {
   implicit object Format extends Writes[Location] {
     def writes(o: Location) = JsObject(Seq(
       "text" -> JsString(o.text),
-      "latitude" -> Json.toJson(o.latitude),
-      "longitude" -> Json.toJson(o.longitude)
+      "latitude" -> Json.toJson(o.latLong.latitude),
+      "longitude" -> Json.toJson(o.latLong.longitude)
     ))
   }
 }
