@@ -29,7 +29,15 @@ object EventController extends Controller {
     response.getOrElse(BadRequest("No json body"))
   }
 
-  def update = Action {
-    Ok("Updated")
+  def update(id: String) = Action { implicit request =>
+    val response = for {
+      json <- request.body.asJson
+    } yield {
+      val updatedEvent = json.as[Event]
+      EventManagerService.update(updatedEvent)
+      Ok("Great")
+    }
+
+    response.getOrElse(BadRequest("No json body"))
   }
 }

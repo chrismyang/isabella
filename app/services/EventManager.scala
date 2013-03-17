@@ -2,6 +2,7 @@ package services
 
 import models.{LatLong, Location, Event}
 import play.api.libs.concurrent.Promise
+import play.api.Logger
 
 class EventManager {
 
@@ -21,6 +22,10 @@ class EventManager {
       val latLong = latLongOpt.getOrElse(LatLong(0.0, 0.0))
       Event(Some("000002"), title, Location(locationText, latLong))
     }
+  }
+
+  def update(eventToUpdate: Event) {
+    Logger.info("TODO: EventManager.update " + eventToUpdate)
   }
 }
 

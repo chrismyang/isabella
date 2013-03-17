@@ -17,6 +17,10 @@ define(
 
 
     var EventDetail = Backbone.View.extend({
+      events : {
+        "click .save" : "save"
+      },
+
       initialize : function () {
         Events.getCurrentEvent().on('all', this.render, this);
         this.model.on('all', this.render, this);
@@ -28,8 +32,10 @@ define(
           this.$el.html('Click on the map or on a card to show details.');
         } else {
           if (this.model.get('editMode')) {
-            var html = '<input type="text" value="' + this.model.getEvent().get('title') + '"/>' +
-              '<input type="text" value="' + this.model.getEvent().get('location').text + '"/>';
+            var html = '<input id="inputTitle" type="text" value="' + this.model.getEvent().get('title') + '"/>' +
+              '<input id="inputLocation" type="text" value="' + this.model.getEvent().get('location').text + '"/>' +
+              '<button class="save">Save</button>';
+
             this.$el.html(html);
           } else {
             var html = '<h3>' + this.model.getEvent().get('title') + '</h3>' +
@@ -45,6 +51,19 @@ define(
       setEditMode : function (isEditMode) {
         if (!this.model.getEvent().isEmpty) {
           this.model.set('editMode', isEditMode);
+        }
+      },
+
+      save : function () {
+        if (this.model.get('editMode')) {
+          var newData = {
+            "title" : this.$('#inputTitle').val()
+          };
+
+          var id = this.model.getEvent().get('id');
+          var event = Events.get(id);
+          event.set(newData);
+          event.save();
         }
       }
     });
