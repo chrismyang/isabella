@@ -2,6 +2,9 @@ package services
 
 import models.{Location, Event}
 import play.api.libs.concurrent.Promise
+import play.api.libs.ws.WS
+import play.api.libs.json.{JsValue, JsArray}
+import play.api.libs.json.Reads._
 
 class EventManager {
 
@@ -15,7 +18,29 @@ class EventManager {
   }
 
   def create(title: String, locationText: String): Promise[Event] = {
-    Promise.pure(Event(Some("000002"), title, Location(locationText, 0.0, 0.0)))
+    val base = """http://maps.google.com/maps/api/geocode/json"""
+    val locationParam = "address=" + normalize(locationText)
+
+    val requestUrl = base + "?sensor=false&" + locationParam
+
+    WS.url(requestUrl).get() map { response =>
+      val results = (response.json \ "results").as[Seq[JsValue]]
+
+      val (lat, long) = if (results.size > 0) {
+        val location = results(0) \ "geometry" \ "location"
+        val latJs = location \ "lat"
+        val longJs = location \ "lng"
+        (latJs.as[Double], longJs.as[Double])
+      } else {
+        (0.0, 0.0)
+      }
+
+      Event(Some("000002"), title, Location(locationText, lat, long))
+    }
+  }
+
+  private def normalize(text: String) = {
+    text.replace(" ", "+")
   }
 }
 
