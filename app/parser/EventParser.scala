@@ -3,24 +3,44 @@ package parser
 import models.{Location, Event}
 import services.Email
 import org.jsoup.Jsoup
+import play.api.libs.ws.WS
+import play.api.libs.concurrent.Promise
 
 class EventParser {
 
-  def parseFromEmail(email: Email): Event = {
-    val title = email.subject
-    val notes = Some(email.body)
+  def parseFromEmail(email: Email): Promise[Event] = {
+    hasLink(email.body) match {
+      case Some(link) => parseFromLink(link)
+      case None =>
+        val title = email.subject
+        val notes = Some(email.body)
 
-    Event(None, title, None, None, notes, Location("foo", null))
+        val event = Event(None, title, None, None, notes, Location("foo", null))
+        Promise.pure(event)
+    }
   }
 
-  def parseFromLink(link: String): Event = {
-    Event(None, "", None, None, None, Location("", null))
+  private def hasLink(htmlContent: String) = {
+    val document = Jsoup.parse(htmlContent)
+    val elements = document.select("a[href]")
+
+    if (elements.size == 0) {
+      None
+    } else {
+      Some(elements.get(0).attr("href"))
+    }
   }
 
-  def parseFromWebPage(htmlContent: String, url: String): Event = {
+  def parseFromLink(link: String): Promise[Event] = {
+    WS.url(link).get() flatMap { response =>
+      this.parseFromWebPage(response.body, response.getAHCResponse.getUri.toString)
+    }
+  }
+
+  def parseFromWebPage(htmlContent: String, url: String): Promise[Event] = {
     val document = Jsoup.parse(htmlContent, url)
 
-    if (isThrillistLink(url)) {
+    val result = if (isThrillistLink(url)) {
       val title = document.select("[name=twitter:title]").attr("content")
 
       val imageUrl = Some(document.select(".tlc-slide-media img").attr("src"))
@@ -42,6 +62,8 @@ class EventParser {
 
       Event(None, "", imageUrl, None, notes, Location(address, null))
     }
+
+    Promise.pure(result)
   }
 
   private def isThrillistLink(url: String) = url.contains("""thrillist.com""")
