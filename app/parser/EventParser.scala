@@ -68,12 +68,39 @@ class EventParser {
 
       Event(None, title, imageUrl, None, notes, Location(address, null))
     } else {
+      val title = {
+        val ogTitle = document.select("[property=og:title]")
 
-      val imageUrl = None
-      val notes = None
+        if (!ogTitle.isEmpty) {
+          ogTitle.attr("content")
+        } else {
+          document.select("title").text()
+        }
+      }
+
+      val imageUrl = {
+        val ogImage = document.select("[property=og:image]")
+
+        if (!ogImage.isEmpty) {
+          Some(ogImage.attr("content"))
+        } else {
+          None
+        }
+      }
+
+      val notes = {
+        val ogDescription = document.select("[property=og:description]")
+
+        if (!ogDescription.isEmpty) {
+          Some(ogDescription.attr("content"))
+        } else {
+          None
+        }
+      }
+
       val address = ""
 
-      Event(None, "", imageUrl, None, notes, Location(address, null))
+      Event(None, title, imageUrl, None, notes, Location(address, null))
     }
 
     Promise.pure(result)
