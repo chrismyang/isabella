@@ -21,6 +21,7 @@ define(
           <h1><%= title %></h1> \
           <p class="location"><i class="icon-map-marker"></i> <%= location.text %></p> \
           <p class="tags"><i class="icon-tags"></i> <%= tags %></p> \
+          <p class="notes"><%= notes %></p>\
         </div> \
       </div>';
 

@@ -11,6 +11,7 @@ case class Event(
     title: String,
     imageUrl: Option[String],
     tags: Option[String],
+    notes: Option[String],
     location: Location) {
 
   def withNewLatLong(newLatLong: LatLong) = {
@@ -45,7 +46,8 @@ object Event {
       "id" -> Json.toJson(o._id),
       "title" -> JsString(o.title),
       "imageUrl" -> o.imageUrl.map(JsString(_)).getOrElse(JsNull),
-      "tags" -> JsString(o.tags.getOrElse("")),
+      "tags" -> o.tags.map(JsString(_)).getOrElse(JsNull),
+      "notes" -> o.notes.map(JsString(_)).getOrElse(JsNull),
       "location" -> Json.toJson(o.location)))
 
     def reads(json: JsValue) = {
@@ -53,7 +55,8 @@ object Event {
         _id = (json \ "id").as[Option[ObjectId]],
         title = (json \ "title").as[String],
         imageUrl = (json \ "imageUrl").asOpt[String],
-        tags = None,
+        tags = (json \ "tags").asOpt[String],
+        notes = (json \ "notes").asOpt[String],
         location = (json \ "location").as[Location]
       )
     }

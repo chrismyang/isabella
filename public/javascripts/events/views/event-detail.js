@@ -69,7 +69,10 @@ define(
 
           var newData = {
             "title" : this.$('#inputTitle').val(),
-            "location" : location
+            "location" : location,
+            "imageUrl" : this.$('#inputImageUrl').val(),
+            "tags" : this.$('#inputTags').val(),
+            "notes" : this.$('#inputNotes').val()
           };
 
           var id = this.model.getEvent().get('id');

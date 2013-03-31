@@ -17,7 +17,7 @@ class EventManager {
     geocoder.geocode(locationText) map {
       latLongOpt =>
         val latLong = latLongOpt.getOrElse(LatLong(0.0, 0.0))
-        val eventToSave = Event(None, title, None, None, Location(locationText, latLong))
+        val eventToSave = Event(None, title, None, None, None, Location(locationText, latLong))
 
         val id = EventDAO.insert(eventToSave)
         eventToSave.copy(_id = id)
