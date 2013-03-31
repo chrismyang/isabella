@@ -1,8 +1,10 @@
 define(
-  ['backbone'],
-  function (Backbone) {
+  ['backbone', 'views/templates'],
+  function (Backbone, Templates) {
     return Backbone.View.extend({
       tagName : 'li',
+
+      template:_.template(Templates.eventCard),
 
       events : {
         'click' : 'select',
@@ -15,9 +17,12 @@ define(
       },
 
       render : function () {
-        var html = '<h4>' + this.model.get('title') + '</h4>' + this.model.getAddress();
+        var modelJson = this.model.toJSON();
+        modelJson.location = this.model.getAddress();
+        modelJson.tags = "food, bar";
 
-        this.$el.html(html);
+        this.$el.html(this.template(modelJson));
+        this.$el.addClass('card');
 
         if (this.model.isSelected()) {
           this.$el.addClass('selected');
