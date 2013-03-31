@@ -13,6 +13,15 @@ class EventManager {
     EventDAO.findAll().toSeq
   }
 
+  def create(unlocatedEvent: Event): Promise[Event] = {
+    geocoder.geocode(unlocatedEvent.location.text) map { latLongOpt =>
+        val latLong = latLongOpt.getOrElse(LatLong(0.0, 0.0))
+        val eventToSave = unlocatedEvent.withNewLatLong(latLong)
+        val id = EventDAO.insert(eventToSave)
+        eventToSave.copy(_id = id)
+    }
+  }
+
   def create(title: String, locationText: String): Promise[Event] = {
     geocoder.geocode(locationText) map {
       latLongOpt =>
