@@ -8,6 +8,9 @@
     <title>Google Maps JavaScript API v3 Example: Info Window Simple</title>
     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/default.css")">
 
+    <link rel="stylesheet" href="@routes.Assets.at("thirdparty/bootstrap/css/bootstrap.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("thirdparty/font-awesome/css/font-awesome.css")">
+
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@apiKey&sensor=true"></script>
 
     <script>
@@ -58,9 +61,22 @@
 </head>
 <body>
     <div id="map_canvas"></div>
-    <div >
-      <div id="events-overview"></div>
-      <div id="event-detail"></div>
+    <div class="main">
+        <div>
+            <div class="card">
+                <div class="card-container">
+                    <div class="image-container">
+                    </div>
+                    <div class="card-body-container">
+                        <h1>Salty Sweet Cookie</h1>
+                        <p class="location"><i class="icon-map-marker"></i> Dolores Park, San Francisco</p>
+                        <p class="tags"><i class="icon-tags"></i> food, outdoors</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div id="events-overview"></div>*@
+        @*<div id="event-detail"></div>*@
     </div>
 </body>
 </html>
