@@ -18,8 +18,6 @@ define(
 
       render : function () {
         var modelJson = this.model.toJSON();
-        modelJson.location = this.model.getAddress();
-        modelJson.tags = "food, bar";
 
         this.$el.html(this.template(modelJson));
         this.$el.addClass('card');

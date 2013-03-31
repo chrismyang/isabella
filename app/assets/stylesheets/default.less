@@ -35,7 +35,6 @@ html, body {
     width: 550px;
 
     background-color: white;
-    padding: 15px;
 
     border-top-left-radius: 13px;
     border-top-right-radius: 13px;
@@ -140,3 +139,79 @@ html, body {
   }
 }
 
+
+.detail-card {
+
+  .card-container {
+    background-color: white;
+
+    -moz-border-radius: 13px;
+    -webkit-border-radius: 13px;
+    border-radius: 13px;
+
+//    width: 232px;
+//    height: 170px;
+
+
+    .image-container {
+      height: 275px;
+
+      -moz-border-radius-topleft: 13px;
+      -moz-border-radius-topright: 13px;
+      -webkit-border-top-left-radius: 13px;
+      -webkit-border-top-right-radius: 13px;
+      -moz-border-radius-topleft: 13px;
+      -moz-border-radius-topright: 13px;
+
+
+      background-color: #7dc1f5;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .card-body-container {
+
+      padding-left: 22px;
+      padding-right: 22px;
+      padding-top: 15px;
+
+      h1 {
+        margin: 0px;
+        font-size: 14pt;
+        color: #464646;
+        line-height: normal;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+      }
+
+      i {
+        width: auto;
+      }
+
+      .location {
+        margin: 0px;
+        color: #898989;
+        font-weight: bold;
+        font-size: 12pt;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .tags {
+        margin: 0px;
+        font-style: italic;
+        color: #a1a1a1;
+        font-size: 12pt;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: auto;
+      }
+    }
+  }
+}

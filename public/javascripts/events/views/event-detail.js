@@ -1,6 +1,6 @@
 define(
-  ['backbone', 'collections/events'],
-  function (Backbone, Events) {
+  ['backbone', 'collections/events', 'views/templates'],
+  function (Backbone, Events, Templates) {
     var ViewModel = Backbone.Model.extend({
       defaults : {
         "editMode" : false
@@ -17,6 +17,8 @@ define(
 
 
     var EventDetail = Backbone.View.extend({
+      defaultTemplate: _.template(Templates.defaultDetailCard),
+
       events : {
         "click .save" : "save"
       },
@@ -32,14 +34,20 @@ define(
           this.$el.html('Click on the map or on a card to show details.');
         } else {
           if (this.model.get('editMode')) {
-            var html = '<input id="inputTitle" type="text" value="' + this.model.getEvent().get('title') + '"/>' +
-              '<input id="inputLocation" type="text" value="' + this.model.getEvent().get('location').text + '"/>' +
+            var html =
+              '<input id="inputTitle" type="text" placeholder="title" value="' + this.model.getEvent().get('title') + '"/>' +
+              '<input id="inputLocation" type="text" placeholder="location" value="' + this.model.getEvent().get('location').text + '"/>' +
+              '<input id="inputImageUrl" type="text" placeholder="imageUrl" value="' + this.model.getEvent().get('imageUrl') + '"/>' +
+              '<input id="inputTags" type="text" placeholder="tags" value="' + this.model.getEvent().get('tags') + '"/>' +
+              '<input id="inputNotes" type="text" placeholder="notes" value="' + this.model.getEvent().get('notes') + '"/>' +
               '<button class="save">Save</button>';
 
             this.$el.html(html);
           } else {
-            var html = '<h3>' + this.model.getEvent().get('title') + '</h3>' +
-              '<p>' + this.model.getEvent().get('location').text + '</p>';
+            var json = this.model.getEvent().toJSON();
+
+            this.$el.html(this.defaultTemplate(json));
+            this.$el.addClass('detail-card');
 
             this.$el.html(html);
           }
