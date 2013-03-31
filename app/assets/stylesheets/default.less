@@ -19,7 +19,10 @@ html, body {
 
   #events-overview {
 //    height: 50%;
-//    width: 50%;
+    width: 50%;
+    list-style-type: none;
+    padding-top: 10px;
+
   }
 
   #event-detail {
@@ -48,6 +51,9 @@ html, body {
 }
 
 .card {
+
+  display: inline-block;
+  padding-right: 10px;
 
   .card-container {
     border: 1px;
@@ -90,6 +96,7 @@ html, body {
     .card-body-container {
 
       padding-left: 8px;
+      padding-right: 8px;
       padding-top: 3px;
 
       h1 {
@@ -97,6 +104,14 @@ html, body {
         font-size: 11pt;
         color: #464646;
         line-height: normal;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+      }
+
+      i {
+        width: auto;
       }
 
       .location {
@@ -104,6 +119,10 @@ html, body {
         color: #898989;
         font-weight: bold;
         font-size: 9pt;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .tags {
@@ -111,6 +130,11 @@ html, body {
         font-style: italic;
         color: #a1a1a1;
         font-size: 9pt;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: auto;
       }
     }
   }
