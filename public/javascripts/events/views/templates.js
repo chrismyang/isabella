@@ -6,7 +6,7 @@ define(
 
     templates.eventCard = '\
       <div class="card-container"> \
-        <div class="image-container"></div> \
+        <div class="image-container" style="background-image: url(<%= imageUrl %>);"></div> \
         <div class="card-body-container"> \
           <h1><%= title %></h1> \
           <p class="location"><i class="icon-map-marker"></i> <%= location %></p> \
@@ -16,4 +16,4 @@ define(
 
     return templates;
   }
-)
+);

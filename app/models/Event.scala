@@ -9,6 +9,7 @@ import util.JsonFormats._
 case class Event(
     _id: Option[ObjectId],
     title: String,
+    imageUrl: Option[String],
     location: Location) {
 
   def withNewLatLong(newLatLong: LatLong) = {
@@ -42,12 +43,14 @@ object Event {
     def writes(o: Event) = JsObject(Seq(
       "id" -> Json.toJson(o._id),
       "title" -> JsString(o.title),
+      "imageUrl" -> o.imageUrl.map(JsString(_)).getOrElse(JsNull),
       "location" -> Json.toJson(o.location)))
 
     def reads(json: JsValue) = {
       Event(
         _id = (json \ "id").as[Option[ObjectId]],
         title = (json \ "title").as[String],
+        imageUrl = (json \ "imageUrl").asOpt[String],
         location = (json \ "location").as[Location]
       )
     }
