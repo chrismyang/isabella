@@ -15,4 +15,8 @@ class EventParser {
   def parseFromLink(link: String): Event = {
     null
   }
+
+  def parseFromWebPage(htmlContent: String): Event = {
+    null
+  }
 }
