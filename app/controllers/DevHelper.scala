@@ -1,20 +1,18 @@
 package controllers
 
 import play.api.mvc.{Action, Controller}
-import services.{EventManagerService, EmailReceiver}
-import parser.EventParser
+import services.{EmailRequestProcessor, EventManagerService, EmailReceiver}
+import play.api.libs.concurrent.Akka
+import akka.actor.Props
+import play.api.Play
+import Play.current
 
 object DevHelper extends Controller {
 
   def parseEmail = Action { implicit request =>
-    val emails = new EmailReceiver().fetchNewMessages()
+    val processor = Akka.system.actorOf(Props(new EmailRequestProcessor(new EmailReceiver, EventManagerService)))
 
-    for {
-      email <- emails
-    } yield {
-      val promise = new EventParser().parseFromEmail(email)
-      promise onRedeem { event => EventManagerService.create(event) }
-    }
+    processor ! EmailRequestProcessor.Fetch
 
     Ok("")
   }
