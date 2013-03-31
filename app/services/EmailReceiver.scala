@@ -88,4 +88,4 @@ class EmailReceiver {
   }
 }
 
-case class Email(from: Address, title: String, body: String)
+case class Email(from: Address, subject: String, body: String)
