@@ -6,10 +6,10 @@ import services.Email
 class EventParser {
 
   def parseFromEmail(email: Email): Event = {
+    val title = email.subject
+    val notes = Some(email.body)
 
-
-
-    Event(None, "", None, None, None, Location("foo", null))
+    Event(None, title, None, None, notes, Location("foo", null))
   }
 
   def parseFromLink(link: String): Event = {
