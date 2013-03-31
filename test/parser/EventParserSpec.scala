@@ -33,7 +33,7 @@ class EventParserSpec extends Specification {
   "parse web page" should {
     "handle thrillist" in {
       val html = FileUtils.readFileToString(new File("test/thrillist.html"))
-      val actualEvent = new EventParser().parseFromWebPage(html)
+      val actualEvent = new EventParser().parseFromWebPage(html, """http://www.thrillist.com/eat/san-francisco/the-castro/94103/pica-picas-full-service-restaurant""")
       actualEvent.imageUrl must_== Some("""http://assets3.thrillist.com/v1/image/718806/size/tl-horizontal_main""")
       actualEvent.title must_== "Pica Pica Castro"
       actualEvent.location.text must_== "3970 17th St, San Francisco, CA 94103"
