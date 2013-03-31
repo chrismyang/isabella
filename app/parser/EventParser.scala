@@ -54,6 +54,19 @@ class EventParser {
       }
 
       Event(None, title, imageUrl, None, notes, Location(address, null))
+    } else if (isSoshLink(url)) {
+      val title = document.select("[property=og:title]").attr("content")
+
+      val imageUrl = Some(document.select("[property=og:image]").attr("content"))
+
+      val notes = Some(document.select("[property=og:description]").attr("content"))
+
+      val address = {
+        val streetAddress = document.select("#google-map-address-overlay").html()
+        streetAddress.split("<br />").map(_.trim).mkString(", ")
+      }
+
+      Event(None, title, imageUrl, None, notes, Location(address, null))
     } else {
 
       val imageUrl = None
@@ -67,4 +80,6 @@ class EventParser {
   }
 
   private def isThrillistLink(url: String) = url.contains("""thrillist.com""")
+
+  private def isSoshLink(url: String) = url.contains("""sosh.com""")
 }

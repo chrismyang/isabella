@@ -43,6 +43,18 @@ class EventParserSpec extends Specification {
       actualEvent.title must_== "Pica Pica Castro"
       actualEvent.location.text must_== "3970 17th St, San Francisco, CA 94103"
     }
+
+    "handle sosh" in {
+      val actualEvent = {
+        val html = FileUtils.readFileToString(new File("test/sosh.html"))
+        val url = """http://sosh.com/inverness-ca/tomales-bay-state-park/hike-tomales-bay-woodland-hike/a/ShaE/?ref=weekender_button"""
+        new EventParser().parseFromWebPage(html, url).await.get
+      }
+
+      actualEvent.imageUrl must_== Some("""http://s.bso.sh/thumbs/f9/37/f937cae957a71dc8a742e584ea1e4134.jpg""")
+      actualEvent.title must_== "Hike: Tomales Bay Hike"
+      actualEvent.location.text must_== "1208 Pierce Point Rd, Inverness, CA 94937"
+    }
   }
 
 }
